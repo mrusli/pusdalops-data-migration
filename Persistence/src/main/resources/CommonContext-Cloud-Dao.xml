@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="CommonContext-Cloud-Config.xml"></import>
+
+	<bean id="kejadianDao" class="mil.pusdalops.k2.persistence.kejadian.dao.hibernate.KejadianHibernate">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<bean id="propinsiDao" class="mil.pusdalops.k2.persistence.propinsi.dao.hibernate.PropinsiHibernate">
+		<property name="sessionFactory" ref="sessionFactory"></property>	
+	</bean>
+
+	<bean id="kabupaten_KotamadyaDao" class="mil.pusdalops.k2.persistence.kabupaten_kotamadya.dao.hibernate.Kabupaten_KotamadyaHibernate">
+		<property name="sessionFactory" ref="sessionFactory"></property>	
+	</bean>
+	
+	<bean id="kecamatanDao" class="mil.pusdalops.k2.persistence.kecamatan.dao.hibernate.KecamatanHibernate">
+		<property name="sessionFactory" ref="sessionFactory"></property>	
+	</bean>
+	
+	<bean id="kelurahanDao" class="mil.pusdalops.k2.persistence.kelurahan.dao.hibernate.KelurahanHibernate">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+</beans>
