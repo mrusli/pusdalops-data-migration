@@ -1,0 +1,20 @@
+#--- sql server 2008 connection
+#hibernate.connection.driver_class=net.sourceforge.jtds.jdbc.Driver
+#hibernate.connection.url=jdbc:jtds:sqlserver://localhost;instance=SQLEXPRESS;DatabaseName=pusdalops
+#hibernate.connection.username=sa
+#hibernate.connection.password=p@ssw0rdpusdalops
+#hibernate.dialect=org.hibernate.dialect.SQLServerDialect
+
+#--- mysql google cloud : jdbc:mysql://35.247.176.49:3306/e010_k2_pusdalops
+#initial connection set to mysql database schema test (where the temp data drom sql server is dump to)
+hibernate.connection.driver_class=com.mysql.jdbc.Driver
+hibernate.connection.url=jdbc:mysql://localhost/pusdalops-k2-legacy?autoReconnect=true&useSSL=false
+hibernate.connection.username=root
+hibernate.connection.password=password
+hibernate.dialect=org.hibernate.dialect.MySQLDialect
+hibernate.show_sql=true
+hibernate.use_outer_join=true
+hibernate.jdbc.batch_size=50
+hibernate.jdbc.time_zone=UTC+7
+
+hibernate.search.lucene_version=LUCENE_50

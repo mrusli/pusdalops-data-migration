@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD//END"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>		
+		<!-- sql server tables (in mysql server table actually) -->
+		<mapping class="mil.pusdalops.k2.domain.sql.Alutsista"/>
+		<mapping class="mil.pusdalops.k2.domain.sql.Alutsista02"/>
+		<mapping class="mil.pusdalops.k2.domain.sql.Kronologis"/>
+		<mapping class="mil.pusdalops.k2.domain.sql.Tkp"/>
+		<mapping class="mil.pusdalops.k2.domain.sql.Kerugian"/>
+	</session-factory>
+</hibernate-configuration>

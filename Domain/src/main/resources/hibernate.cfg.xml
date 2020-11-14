@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD//END"
+"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+				
+		<mapping class="mil.pusdalops.domain.authorization.User"/>
+		<mapping class="mil.pusdalops.domain.authorization.UserRole"/>
+
+		<mapping class="mil.pusdalops.domain.gelarops.GelarOperasi"/>
+
+		<mapping class="mil.pusdalops.domain.gmt.GreenwichMT"/>
+		<mapping class="mil.pusdalops.domain.gmt.Timezone"/>
+		
+		<mapping class="mil.pusdalops.domain.kejadian.Kejadian"/>
+		<mapping class="mil.pusdalops.domain.kejadian.KejadianJenis"/>
+		<mapping class="mil.pusdalops.domain.kejadian.KejadianMotif"/>
+		<mapping class="mil.pusdalops.domain.kejadian.KejadianPelaku"/>
+
+		<mapping class="mil.pusdalops.domain.kerugian.Kerugian"/>
+		<mapping class="mil.pusdalops.domain.kerugian.KerugianJenis"/>
+		<mapping class="mil.pusdalops.domain.kerugian.KerugianKondisi"/>
+		<mapping class="mil.pusdalops.domain.kerugian.KerugianSatuan"/>
+
+		<mapping class="mil.pusdalops.domain.kotamaops.Kotamaops"/>
+		
+		<mapping class="mil.pusdalops.domain.laporanlain.LaporanLain"/>
+		
+		<mapping class="mil.pusdalops.domain.personel.Personel"/>
+		
+		<mapping class="mil.pusdalops.domain.serial.DocumentSerialNumber"/>
+
+		<mapping class="mil.pusdalops.domain.settings.Settings"/>
+
+		<mapping class="mil.pusdalops.domain.siaga.PejabatSiaga"/>
+
+		<mapping class="mil.pusdalops.domain.wilayah.Propinsi"/>
+		<mapping class="mil.pusdalops.domain.wilayah.Kabupaten_Kotamadya"/>
+		<mapping class="mil.pusdalops.domain.wilayah.Kecamatan"/>
+		<mapping class="mil.pusdalops.domain.wilayah.Kelurahan"/>
+
+		<mapping class="mil.pusdalops.k2.domain.sql.Kronologis"/>
+		<mapping class="mil.pusdalops.k2.domain.sql.Tkp"/>
+		<mapping class="mil.pusdalops.k2.domain.sql.Kerugian"/>
+
+	</session-factory>
+</hibernate-configuration>
