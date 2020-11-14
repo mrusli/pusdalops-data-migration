@@ -1,0 +1,51 @@
+<?page title="Login" contentType="text/html;charset=UTF-8"?>
+<?variable-resolver class="org.zkoss.zkplus.spring.DelegatingVariableResolver"?>
+<?link rel="stylesheet" type="text/css" href="/css/style.css"?>
+<?link rel="stylesheet" type="text/css" href="/css/bootstrap-spacelab.min.css"?>
+<?link rel="stylesheet" type="text/css" href="/login/login.css"?>
+<zk>
+	<div id="mainLoginDiv" width="100%" height="100%" align="center" sclass="backgroundImg">
+		<html>
+			<![CDATA[
+				<div class="example1">
+					<h3>PUSAT PENGENDALIAN OPERASI TNI...SELAMAT DATANG</h3>
+				</div>
+			]]>
+		</html>
+		<separator height="450px"></separator>
+		<vbox align="center">
+			<html style="color:red; font-family: Arial, Helvetica, sans-serif; font-size: 1.5em;" if="${not empty param.login_error}">
+				<![CDATA[ 
+					Login Gagal. Mohon dicoba kembali : ${SPRING_SECURITY_LAST_EXCEPTION.message} 
+				]]>
+		    </html>
+		</vbox>				
+		<html:form id="f" name="f" action="j_spring_security_check" method="POST" xmlns:html="native">
+			<grid>
+				<rows>
+					<row>
+						<cell width="45%" align="right">
+							<label value="KOTAMAOPS:" style="font-size: 1.75em; font-weight: bold; color: #d9251c;"></label>							
+						</cell>
+						<cell>
+							<textbox id="username" name="username" style="font-size: 1.5em;"/>
+						</cell>
+					</row>
+					<row>
+						<cell align="right">
+							<label value="PASSWORD:" style="font-size: 1.75em; font-weight: bold; color: #d9251c;"></label>							
+						</cell>
+						<cell>
+							<textbox id="password" name="password" type="password" style="font-size: 1.5em;"/>							
+						</cell>
+					</row>
+				</rows>
+			</grid>
+			<separator height="20px"/>		
+			<hbox>
+				<html:input type="submit" value="Login" sclass="btn btn-primary"/>
+				<html:input type="reset" value="Reset" sclass="btn btn-primary" />
+			</hbox>
+		</html:form>			
+	</div>
+</zk>

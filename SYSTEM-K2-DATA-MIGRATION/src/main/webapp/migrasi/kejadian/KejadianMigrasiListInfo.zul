@@ -1,0 +1,33 @@
+<?page title="Migrasi-Kejadian" contentType="text/html;charset=UTF-8"?>
+<zk>
+<borderlayout id="kejadianMigrasiListInfoWin" apply="${kejadianMigrasiListInfoControl}">
+	<north border="none" sclass="northArea">
+		<vlayout>			
+			<hlayout valign="middle" style="padding: 5px 0px">
+				<label id="formTitleLabel" sclass="headTitle"></label>
+			</hlayout>
+		</vlayout>
+	</north>
+	<center border="none" sclass="centerArea">
+		<div>
+			<hlayout style="padding: 10px;" valign="middle">
+				<label id="infoResultlabel" value="Total: 0 kejadian" sclass="infoResultLabel"></label>
+				<button id="newButton" label="Tambah" sclass="modButton" visible="false"></button>
+			</hlayout>	
+			<listbox id="tkpListbox" mold="paging" pageSize="12" height="510px">
+				<listhead>
+					<listheader label="ID" width="185px"/>
+					<listheader label="TW" width="205px"/>
+					<listheader label="Kotamops" width="220px"/>
+					<listheader label="Klasifikasi" width="240px"/>
+					<listheader label="Motif" width="160px"/>
+					<!-- kerugian -->
+					<listheader width="120px"/>
+					<!-- Migrasi -->
+					<listheader width="120px"/>
+				</listhead>
+			</listbox>	
+		</div>
+	</center>
+</borderlayout>
+</zk>

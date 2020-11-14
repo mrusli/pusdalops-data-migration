@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>
+	<system-config>
+		<ui-factory-class>org.zkoss.zk.ui.http.SerializableUiFactory</ui-factory-class>	
+	</system-config>
+	<session-config>
+		<timer-keep-alive>true</timer-keep-alive>
+	    <session-timeout>1800</session-timeout>
+	    <max-desktops-per-session>-1</max-desktops-per-session>	
+	</session-config>
+</zk>

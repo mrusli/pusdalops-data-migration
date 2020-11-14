@@ -1,0 +1,43 @@
+<?page title="Synchronisasi" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window border="normal" id="sychronizeWin" apply="${sychronizeWinControl}">
+<vbox>
+	<grid>
+		<rows>
+			<row>
+				<cell width="33%">
+					<vlayout>
+						<hlayout style="padding-top: 5px;">
+							<label id="synchronizeLabel" value="Synchronisasi" sclass="headTitle"></label>
+						</hlayout>
+						<hlayout style="padding-top: 5px;">
+							<datebox id="twSynchDatebox" format="yyyy-MM-dd" width="180px"/>
+							<timebox id="twSynchTimebox" format="HH:mm" width="140px" disabled="true"></timebox>	
+						</hlayout>
+						<vlayout style="padding-top: 5px;">
+							<button id="scanTableButton" label="Scan" sclass="comButton"></button>
+							<textbox id="logSynchTextbox" multiline="true" rows="28" width="450px" sclass="log-textbox"></textbox>
+						</vlayout>									
+					</vlayout>
+				</cell>
+				<cell>
+					<vlayout>
+						<hlayout style="padding-top: 5px;">
+							<label id="transferLabel" value="Pindah" sclass="headTitle"></label>
+						</hlayout>						
+						<hlayout style="padding-top: 5px;">
+							<datebox id="twTransDatebox" format="yyyy-MM-dd" width="180px"/>
+							<timebox id="twTransTimebox" format="HH:mm" width="140px" disabled="true"></timebox>	
+						</hlayout>
+						<vlayout style="padding-top: 5px;">
+							<button id="transTableButton" label="Pindah" sclass="comButton"></button>
+							<textbox id="logTransTextbox" multiline="true" rows="28" width="450px" sclass="log-textbox"></textbox>
+						</vlayout>															
+					</vlayout>
+				</cell>
+			</row>
+		</rows>
+	</grid>
+</vbox>
+</window>
+</zk>

@@ -1,0 +1,19 @@
+<?page title="KejadianJenisListDialog" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window width="400px" height="520px" border="normal"
+	id="kejadianJenisListDialogWin" apply="${kejadianJenisListDialogControl}">
+	<vlayout>
+		<label id="kejadianJenisStatementLabel"/>
+	</vlayout>
+	<listbox id="kejadianJenisListbox" height="280px">
+		<listhead>
+			<listheader label="Jenis Kejadian" width="285px"></listheader>
+		</listhead>
+	</listbox>
+	<hlayout style="padding-top: 5px;">
+		<button id="selectButton" label="Pilih" sclass="comButton" disabled="true"></button>
+		<button id="addButton" label="Tambah" sclass="comButton"></button>
+		<button id="cancelButton" label="Cancel" sclass="comButton"></button>	
+	</hlayout>
+</window>
+</zk>

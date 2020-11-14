@@ -1,0 +1,38 @@
+<?page title="KotamaopsAddDialog" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window border="normal" width="440px" height="250px"
+	id="kotamaopsAddDialogWin" apply="${kotamaopsAddDialogControl}">
+	<grid>
+		<rows>
+			<row>
+				<cell width="35%">
+					<label value="Kotamaops:"></label>					
+				</cell>
+				<cell>
+					<textbox id="entryTextbox" width="210px"></textbox>
+				</cell>
+			</row>
+			<row>
+				<cell>
+					<label value="Zona Waktu:"></label>										
+				</cell>
+				<cell>
+					<combobox id="timezoneCombobox" width="120px"></combobox>
+				</cell>
+			</row>
+			<row>
+				<cell>
+					<label value="Kode Dokumen (4 Karakter):"></label>
+				</cell>
+				<cell>
+					<textbox id="docCodeTextbox" width="120px" maxlength="4" style="text-transform:uppercase"></textbox>
+				</cell>
+			</row>
+		</rows>
+	</grid>
+	<hlayout style="padding-top: 5px;">
+		<button id="changeButton" label="Tambah"></button>
+		<button id="cancelButton" label="Cancel"></button>	
+	</hlayout>
+</window>
+</zk>

@@ -1,0 +1,19 @@
+<?page title="KerugianJenisListDialog" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window width="400px" height="520px" border="normal"
+	id="kerugianJenisListDialogWin" apply="${kerugianJenisListDialogControl}">
+	<vlayout>
+		<label id="kerugianJenisStatementLabel"/>
+	</vlayout>
+	<listbox id="kerugianJenisListbox" height="280px">
+		<listhead>
+			<listheader label="Jenis Kerugian" width="285px"></listheader>
+		</listhead>
+	</listbox>
+	<hlayout style="padding-top: 5px;">
+		<button id="selectButton" label="Pilih" sclass="comButton" disabled="true"></button>
+		<button id="addButton" label="Tambah" sclass="comButton"></button>
+		<button id="cancelButton" label="Cancel" sclass="comButton"></button>	
+	</hlayout>
+</window>
+</zk>

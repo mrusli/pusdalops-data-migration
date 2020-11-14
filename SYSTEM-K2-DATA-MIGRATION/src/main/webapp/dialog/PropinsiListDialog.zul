@@ -1,0 +1,20 @@
+<?page title="PropinsiListDialog" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window width="500px" height="520px" title="Pilih Propinsi" border="normal"
+	id="propinsiListDialogWin" apply="${propinsiListDialogControl}">
+	<vlayout>
+		<label id="namaPropinsiLabel"/>
+		tidak ditemukan. Pilih dari daftar propinsi:
+	</vlayout>
+	<listbox id="propinsiListbox" height="340px">
+		<listhead>
+			<listheader label="" width="165px"></listheader>
+			<listheader label="Nama Propinsi" width="285px"></listheader>
+		</listhead>
+	</listbox>
+	<hlayout style="padding-top: 5px;">
+		<button id="selectButton" label="Pilih" sclass="comButton" disabled="true"></button>
+		<button id="cancelButton" label="Cancel" sclass="comButton"></button>	
+	</hlayout>
+</window>
+</zk>

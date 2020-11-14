@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="CommonContext-Dao.xml"/>
+
+	<bean id="basisController" class="mil.pusdalops.k2.webui.common.GFCBaseController" abstract="true" scope="prototype">
+	
+	</bean>
+
+	<!-- Security -->
+	
+	<bean id="userDetailsControl" class="mil.pusdalops.k2.webui.security.UserSecurityControl" scope="prototype" parent="basisController">
+		<property name="userDao" ref="userDao"></property>
+	</bean>
+
+	<!-- Main -->
+
+	<bean id="mainControl" class="mil.pusdalops.k2.webui.main.MainControl" scope="prototype" parent="basisController">
+		<property name="userDao" ref="userDao"></property>
+	</bean>
+
+	<!-- Serial Number -->
+
+	<bean id="serialNumberGenerator" class="mil.pusdalops.k2.webui.serial.SerialNumberGenerator" scope="prototype" parent="basisController">
+		<property name="documentSerialNumberDao" ref="documentSerialNumberDao"></property>
+	</bean>
+
+	<!-- Profile -->
+
+	<bean id="userProfileControl" class="mil.pusdalops.k2.webui.profile.UserProfileControl" scope="prototype" parent="basisController">
+		<property name="userDao" ref="userDao"></property>
+	</bean>
+
+	<!-- Text dialog -->
+
+	<bean id="textEntryDialogControl" class="mil.pusdalops.k2.webui.common.TextEntryDialogControl" scope="prototype" parent="basisController">
+	
+	</bean>
+
+	<!-- Dialogs -->
+	
+	<bean id="kotamaopsListDialogControl" class="mil.pusdalops.k2.webui.dialog.KotamaopsListDialogControl" scope="prototype" parent="basisController">
+		<property name="kotamaopsDao" ref="kotamaopsDao"></property>
+	</bean>
+
+	<bean id="kotamaopsAddDialogControl" class="mil.pusdalops.k2.webui.dialog.KotamaopsAddDialogControl" scope="prototype" parent="basisController">
+	
+	</bean>
+
+	<bean id="propinsiListDialogControl" class="mil.pusdalops.k2.webui.dialog.PropinsiListDialogControl" scope="prototype" parent="basisController">
+		<property name="propinsiDao" ref="propinsiDao"></property>
+	</bean>
+
+	<bean id="kabupatenListDialogControl" class="mil.pusdalops.k2.webui.dialog.KabupatenListDialogControl" scope="prototype" parent="basisController">
+	
+	</bean>
+
+	<bean id="kecamatanListDialogControl" class="mil.pusdalops.k2.webui.dialog.KecamatanListDialogControl" scope="prototype" parent="basisController">
+	
+	</bean>
+
+	<bean id="kelurahanListDialogControl" class="mil.pusdalops.k2.webui.dialog.KelurahanListDialogControl" scope="prototype" parent="basisController">
+	
+	</bean>
+
+	<bean id="kejadianJenisListDialogControl" class="mil.pusdalops.k2.webui.dialog.KejadianJenisListDialogControl" scope="prototype" parent="basisController">
+	
+	</bean>
+
+	<bean id="kejadianMotifListDialogControl" class="mil.pusdalops.k2.webui.dialog.KejadianMotifListDialogControl" scope="prototype" parent="basisController">
+	
+	</bean>
+
+	<bean id="kejadianPelakuListDialogControl" class="mil.pusdalops.k2.webui.dialog.KejadianPelakuListDialogControl" scope="prototype" parent="basisController">
+	
+	</bean>
+	
+	<bean id="kerugianJenisListDialogControl" class="mil.pusdalops.k2.webui.dialog.KerugianJenisListDialogControl" scope="prototype" parent="basisController">
+	
+	</bean>
+	
+	<bean id="kerugianKondisiListDialogControl" class="mil.pusdalops.k2.webui.dialog.KerugianKondisiListDialogControl" scope="prototype" parent="basisController">
+	
+	</bean>
+	
+	<bean id="kerugianJenisWithTipeDialogControl" class="mil.pusdalops.k2.webui.dialog.KerugianJenisWithTipeDialogControl" scope="prototype" parent="basisController">
+	
+	</bean>
+
+	<bean id="kerugianSatuanListDialogControl" class="mil.pusdalops.k2.webui.dialog.KerugianSatuanListDialogControl" scope="prototype" parent="basisController">
+	
+	</bean>
+	
+	<!-- Migrasi Kejadian -->
+
+	<bean id="kejadianMigrasiListInfoControl" class="mil.pusdalops.k2.webui.migrasi.KejadianMigrasiListInfoControl" scope="prototype" parent="basisController">
+		<property name="settingsDao" ref="settingsDao"></property>
+		<property name="tkpSqlDao" ref="tkpSqlDao"></property>
+		<property name="kejadianDao" ref="kejadianDao"></property>
+	</bean>
+
+	<bean id="kejadianMigrasiDialogControl" class="mil.pusdalops.k2.webui.migrasi.KejadianMigrasiDialogControl" scope="prototype" parent="basisController">
+		<property name="kotamaopsDao" ref="kotamaopsDao"></property>	
+		<property name="propinsiDao" ref="propinsiDao"></property>
+		<property name="kabupaten_KotamadyaDao" ref="kabupaten_KotamadyaDao"></property>
+		<property name="kecamatanDao" ref="kecamatanDao"></property>
+		<property name="kelurahanDao" ref="kelurahanDao"></property>
+		<property name="kronologisSqlDao" ref="kronologisSqlDao"></property>
+		<property name="kejadianJenisDao" ref="kejadianJenisDao"></property>
+		<property name="kejadianMotifDao" ref="kejadianMotifDao"></property>
+		<property name="kejadianPelakuDao" ref="kejadianPelakuDao"></property>
+	</bean>
+
+	<bean id="wilayahTextEntryDialogControl" class="mil.pusdalops.k2.webui.migrasi.WilayahTextEntryDialogControl" scope="prototype" parent="basisController">
+	
+	</bean>
+	
+	<bean id="kejadianKerugianMigrasiListInfoWinControl" class="mil.pusdalops.k2.webui.migrasi.KejadianKerugianMigrasiListInfoWinControl" scope="prototype" parent="basisController">
+		<property name="kerugianSqlDao" ref="kerugianSqlDao"></property>	
+		<property name="tkpSqlDao" ref="tkpSqlDao"></property>
+		<property name="kejadianDao" ref="kejadianDao"></property>
+	</bean>
+
+	<bean id="kejadianKerugianMigrasiDialogControl" class="mil.pusdalops.k2.webui.migrasi.KejadianKerugianMigrasiDialogControl" scope="prototype" parent="basisController">
+		<property name="kerugianJenisDao" ref="kerugianJenisDao"></property>
+		<property name="kerugianKondisiDao" ref="kerugianKondisiDao"></property>
+		<property name="kerugianSatuanDao" ref="kerugianSatuanDao"></property>	
+	</bean>
+
+	<!-- Synchronisasi -->
+
+	<bean id="kejadianMenonjolSinkronisasiListInfoControl" class="mil.pusdalops.k2.webui.sinkronisasi.KejadianMenonjolSinkronisasiListInfoControl" scope="prototype" parent="basisController">
+		<property name="settingsDao" ref="settingsDao"></property>	
+	</bean>
+	
+	<bean id="kejadianMenonjolSinkronisasiDialogControl" class="mil.pusdalops.k2.webui.sinkronisasi.KejadianMenonjolSinkronisasiDialogControl" scope="prototype" parent="basisController">
+		<property name="kejadianDao" ref="kejadianDao"></property>
+		<property name="propinsiDao" ref="propinsiDao"></property>
+		<property name="kabupaten_KotamadyaDao" ref="kabupaten_KotamadyaDao"></property>
+		<property name="kecamatanDao" ref="kecamatanDao"></property>
+		<property name="kelurahanDao" ref="kelurahanDao"></property>
+		<property name="kejadianJenisDao" ref="kejadianJenisDao"></property>
+		<property name="kejadianMotifDao" ref="kejadianMotifDao"></property>
+		<property name="kerugianJenisDao" ref="kerugianJenisDao"></property>
+		<property name="kerugianKondisiDao" ref="kerugianKondisiDao"></property>
+		<property name="kerugianSatuanDao" ref="kerugianSatuanDao"></property>	
+	</bean>
+	
+	<bean id="sychronizeWinControl" class="mil.pusdalops.k2.webui.synchronize.SychronizeWinControl" scope="prototype" parent="basisController">
+		<property name="settingsDao" ref="settingsDao"></property>
+		<property name="kejadianDao" ref="kejadianDao"></property>	
+	</bean>
+
+</beans>
