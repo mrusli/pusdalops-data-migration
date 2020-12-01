@@ -14,7 +14,6 @@
 	</listbox>
 	<hlayout style="padding-top: 5px;">
 		<button id="selectButton" label="Pilih" sclass="comButton" disabled="true"></button>
-		<button id="addButton" label="Tambah" sclass="comButton"></button>
 		<button id="cancelButton" label="Cancel" sclass="comButton"></button>	
 	</hlayout>
 </window>

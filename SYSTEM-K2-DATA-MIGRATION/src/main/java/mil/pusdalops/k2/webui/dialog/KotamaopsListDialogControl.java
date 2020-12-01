@@ -1,13 +1,15 @@
 package mil.pusdalops.k2.webui.dialog;
 
-import java.util.Collections;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import javax.imageio.ImageIO;
 
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
-import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Label;
@@ -65,10 +67,18 @@ public class KotamaopsListDialogControl extends GFCBaseController {
 		setKotamaopsList(
 				getKotamaopsDao().findAllKotamaopsWithOrder(true));
 		// remove the PUSADALOPS
-		getKotamaopsList().remove(0);
-
+		// getKotamaopsList().remove(0);
+		List<Kotamaops> kotamaopsListFiltered = new ArrayList<Kotamaops>();
+		for (Kotamaops kotamaops : getKotamaopsList()) {
+			if (kotamaops.getKotamaopsType().equals(KotamaopsType.PUSDALOPS)) {
+				// do nothing
+			} else {
+				kotamaopsListFiltered.add(kotamaops);
+			}
+		}
+		
 		setKotamaopsListModelList(
-				new ListModelList<Kotamaops>(getKotamaopsList()));
+				new ListModelList<Kotamaops>(kotamaopsListFiltered));
 	}
 
 	private void displayKotamaopsListInfo() {
@@ -80,15 +90,24 @@ public class KotamaopsListDialogControl extends GFCBaseController {
 
 		return new ListitemRenderer<Kotamaops>() {
 			
+			BufferedImage buffImg = null;
+			
 			@Override
 			public void render(Listitem item, Kotamaops kotamaops, int index) throws Exception {
 				Listcell lc;
 				
 				item.setClass("expandedRow");
 				
+				try {
+					buffImg = ImageIO.read(new File("/pusdalops/img/logo/"+kotamaops.getImagedId()));
+				} catch (Exception e) {
+					throw e;
+				}
+				
 				// image logo
 				lc = new Listcell();
-				lc.setImage("/img/logo/"+kotamaops.getImagedId());
+				lc.setImageContent(buffImg);
+				//lc.setImage("/img/logo/"+kotamaops.getImagedId());
 				lc.setStyle("text-align: center;");
 				lc.setParent(item);
 				
@@ -112,30 +131,31 @@ public class KotamaopsListDialogControl extends GFCBaseController {
 		};
 	}
 
-	public void onClick$addButton(Event event) throws Exception {
-		Map<String, String> arg = 
-				Collections.singletonMap("namaKotamaops", getNamaKotamaops());
-		Window addKotamaopsWinDialog = 
-				(Window) Executions.createComponents("/dialog/KotamaopsAddDialog.zul", kotamaopsListDialogWin, arg);
-		addKotamaopsWinDialog.addEventListener(Events.ON_CHANGE, new EventListener<Event>() {
-
-			@Override
-			public void onEvent(Event event) throws Exception {
-				KotamaopsData kotamaopsData = (KotamaopsData) event.getData();
-				
-				Kotamaops kotamaops = new Kotamaops();
-				kotamaops.setKotamaopsName(kotamaopsData.getNamaKotamaops());
-				kotamaops.setKotamaopsDisplayName(kotamaopsData.getNamaKotamaops());
-				kotamaops.setTimeZone(kotamaopsData.getTimezoneInd());
-				kotamaops.setKotamaopsType(KotamaopsType.OTHERS);
-				kotamaops.setDocumentCode(kotamaopsData.getDocumentCode());
-								
-				getKotamaopsListModelList().add(0, kotamaops);
-			}
-		});
-		
-		addKotamaopsWinDialog.doModal();
-	}
+	/*
+	 * USER NOT ALLOWED TO ADD KOTAMAOPS from here.  Must use the Back-End Application.
+	 * 
+	 * public void onClick$addButton(Event event) throws Exception { Map<String,
+	 * String> arg = Collections.singletonMap("namaKotamaops", getNamaKotamaops());
+	 * Window addKotamaopsWinDialog = (Window)
+	 * Executions.createComponents("/dialog/KotamaopsAddDialog.zul",
+	 * kotamaopsListDialogWin, arg);
+	 * addKotamaopsWinDialog.addEventListener(Events.ON_CHANGE, new
+	 * EventListener<Event>() {
+	 * 
+	 * @Override public void onEvent(Event event) throws Exception { KotamaopsData
+	 * kotamaopsData = (KotamaopsData) event.getData();
+	 * 
+	 * Kotamaops kotamaops = new Kotamaops();
+	 * kotamaops.setKotamaopsName(kotamaopsData.getNamaKotamaops());
+	 * kotamaops.setKotamaopsDisplayName(kotamaopsData.getNamaKotamaops());
+	 * kotamaops.setTimeZone(kotamaopsData.getTimezoneInd()); //
+	 * kotamaops.setKotamaopsType(KotamaopsType.OTHERS);
+	 * kotamaops.setDocumentCode(kotamaopsData.getDocumentCode());
+	 * 
+	 * getKotamaopsListModelList().add(0, kotamaops); } });
+	 * 
+	 * addKotamaopsWinDialog.doModal(); }
+	 */
 	
 	public void onSelect$kotamaopsListbox(Event event) throws Exception {
 		setSelectedKotamaops(
@@ -145,13 +165,12 @@ public class KotamaopsListDialogControl extends GFCBaseController {
 	}
 	
 	public void onClick$selectButton(Event event) throws Exception {
-		if (getSelectedKotamaops().getId().compareTo(Long.MIN_VALUE)==0) {
-			// new -- will add to list
-			Events.sendEvent(Events.ON_CHANGE, kotamaopsListDialogWin, getSelectedKotamaops());			
-		} else {
-			// existing -- will just select
-			Events.sendEvent(Events.ON_OK, kotamaopsListDialogWin, getSelectedKotamaops());
-		}
+		Events.sendEvent(Events.ON_OK, kotamaopsListDialogWin, getSelectedKotamaops());
+		// if (getSelectedKotamaops().getId().compareTo(Long.MIN_VALUE)==0) {			
+			  // new -- will add to list Events.sendEvent(Events.ON_CHANGE,
+			  // kotamaopsListDialogWin, getSelectedKotamaops()); } else {
+			 // existing -- will just select
+		// }
 		
 		kotamaopsListDialogWin.detach();		
 	}
