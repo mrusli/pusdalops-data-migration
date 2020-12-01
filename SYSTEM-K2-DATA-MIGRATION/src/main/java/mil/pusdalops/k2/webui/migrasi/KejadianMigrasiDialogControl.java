@@ -385,7 +385,7 @@ public class KejadianMigrasiDialogControl extends GFCBaseController {
 		// kotamaops
 		if (getKejadianKotamaops()==null) {
 			comboitem = new Comboitem();
-			comboitem.setLabel("Buat Kotamops...");
+			comboitem.setLabel("Pilih Kotamops...");
 			comboitem.setParent(kotamaopsCombobox);
 			
 			kotamaopsCombobox.setValue("--tidak ditemukan--");
@@ -527,36 +527,32 @@ public class KejadianMigrasiDialogControl extends GFCBaseController {
 	public void onSelect$kotamaopsCombobox(Event event) throws Exception {
 		Map<String, String> args = Collections.singletonMap("namaKotamaops", getTkp().getKOTAMAOPS());
 		Window kotamaopsListWin = (Window) Executions.createComponents("/dialog/KotamaopsListDialog.zul", kejadianMigrasiDialogWin, args);
-		kotamaopsListWin.addEventListener(Events.ON_CHANGE, new EventListener<Event>() {
-
-			@Override
-			public void onEvent(Event event) throws Exception {
-				Kotamaops selKotamaops = (Kotamaops) event.getData();
-
-				// kotamatops current settings
-				TimezoneInd timezoneInd = getCurrentSettings().getSelectedKotamaops().getTimeZone();
-				int timezoneIndOrdinal = timezoneInd.ordinal();
-				// set dateitme create
-				selKotamaops.setCreatedAt(asDate(getLocalDateTime(timezoneInd.toZoneId(timezoneIndOrdinal))));
-				selKotamaops.setEditedAt(asDate(getLocalDateTime(timezoneInd.toZoneId(timezoneIndOrdinal))));
-				// save
-				getKotamaopsDao().save(selKotamaops);
-				// notif
-				Clients.showNotification("Kotamaops berhasil ditambahkan");
-				// set
-				setKejadianKotamaops(selKotamaops);
-				// display
-				kotamaopsCombobox.getItems().clear();
-				// set nama kotamaops
-				Comboitem comboitem = new Comboitem();
-				comboitem.setLabel(selKotamaops.getKotamaopsName());
-				comboitem.setValue(selKotamaops);
-				comboitem.setParent(kotamaopsCombobox);
-				
-				// kotamaopsCombobox.setValue(selKotamaops.getKotamaopsName());
-				kotamaopsCombobox.setSelectedItem(comboitem);
-			}
-		});
+		/*
+		 * KOTAMAOPS NOT ALLOWED TO ADD FROM HERE.  Add from Back-End Application.
+		 * 
+		 * kotamaopsListWin.addEventListener(Events.ON_CHANGE, new
+		 * EventListener<Event>() {
+		 * 
+		 * @Override public void onEvent(Event event) throws Exception { Kotamaops
+		 * selKotamaops = (Kotamaops) event.getData();
+		 * 
+		 * // kotamatops current settings TimezoneInd timezoneInd =
+		 * getCurrentSettings().getSelectedKotamaops().getTimeZone(); int
+		 * timezoneIndOrdinal = timezoneInd.ordinal(); // set dateitme create
+		 * selKotamaops.setCreatedAt(asDate(getLocalDateTime(timezoneInd.toZoneId(
+		 * timezoneIndOrdinal))));
+		 * selKotamaops.setEditedAt(asDate(getLocalDateTime(timezoneInd.toZoneId(
+		 * timezoneIndOrdinal)))); // save getKotamaopsDao().save(selKotamaops); //
+		 * notif Clients.showNotification("Kotamaops berhasil ditambahkan"); // set
+		 * setKejadianKotamaops(selKotamaops); // display
+		 * kotamaopsCombobox.getItems().clear(); // set nama kotamaops Comboitem
+		 * comboitem = new Comboitem();
+		 * comboitem.setLabel(selKotamaops.getKotamaopsName());
+		 * comboitem.setValue(selKotamaops); comboitem.setParent(kotamaopsCombobox);
+		 * 
+		 * // kotamaopsCombobox.setValue(selKotamaops.getKotamaopsName());
+		 * kotamaopsCombobox.setSelectedItem(comboitem); } });
+		 */
 		kotamaopsListWin.addEventListener(Events.ON_OK, new EventListener<Event>() {
 
 			@Override
