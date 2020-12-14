@@ -7,4 +7,5 @@ public interface CustomDateFormat {
 	public static final String YEAR_MONTH_DAY_SHORT	= "yyyy-MM-dd";
 	public static final String YEAR_MONTH			= "yyyyMM";
 	public static final String MONTH_DAY			= "MMdd";
+	public static final String test = "test";
 }
