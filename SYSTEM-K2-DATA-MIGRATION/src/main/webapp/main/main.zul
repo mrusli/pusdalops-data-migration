@@ -8,7 +8,7 @@
 <!-- javascript -->
 <?script type="text/javascript" src="/js/zk-custom.js"?>
 <zk>
-<div id="mainDiv" apply="${mainControl}">
+<window id="mainDiv" apply="${mainControl}" sclass="mainWindow" vflex="1" hflex="1">
 	<div xmlns:n="native">
 		<n:h3>PUSAT PENGENDALIAN OPERASI TNI</n:h3>
 	</div>
@@ -41,6 +41,6 @@
 			<menuitem id="logoutMenuitem" label="Logout" sclass="logoutMenuitem" href="/login/j_spring_security_logout"/>		
 		</menubar>
 	</div>
-	<include id="mainInclude" width="100%" height="620px"></include>		
-</div>
+	<include id="mainInclude" hflex="1" vflex="1"></include>		
+</window>
 </zk>

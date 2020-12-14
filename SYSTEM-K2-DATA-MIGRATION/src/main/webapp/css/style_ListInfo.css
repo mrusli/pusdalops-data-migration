@@ -120,6 +120,13 @@ a:hover, a:focus {
 	background-color: #f98a00;
 }
 
+.kejadianHasilMigrasiButton {
+	min-height: 12px;
+	font-size: 12px;
+	padding: 0px 6px 0px 6px;
+	background-color: #f98a00;
+}
+
 .kerugianEditButton {
 	min-height: 12px;
 	font-size: 12px;
@@ -134,11 +141,25 @@ a:hover, a:focus {
 	background-color: #0910efe6;
 }
 
-.phkLainEditButton {
+.phkKitaKerugianEditButton {
 	min-height: 12px;
 	font-size: 12px;
 	padding: 0px 6px 0px 6px;
-	background-color: #efe809;
+	background-color: red;
+}
+
+.phkMusuhKerugianEditButton {
+	min-height: 12px;
+	font-size: 12px;
+	padding: 0px 6px 0px 6px;
+	background-color: red;
+}
+
+.phkLainKerugianEditButton {
+	min-height: 12px;
+	font-size: 12px;
+	padding: 0px 6px 0px 6px;
+	background-color: red;
 }
 
 .expandedRow {
@@ -176,4 +197,17 @@ a:hover, a:focus {
 
 .red-background.z-listitem .z-listcell {
 	background: red;
+}
+
+/*
+
+*/
+
+.autopaging-content-kronologis .z-listcell-content {
+	height: 110px;
+}
+
+
+.autopaging-content-kejadian-menonjol .z-listcell-content {
+	height: 30px;
 }

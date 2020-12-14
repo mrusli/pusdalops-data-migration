@@ -9,12 +9,12 @@
 		</vlayout>
 	</north>
 	<center border="none" sclass="centerArea">
-		<div>
-			<hlayout style="padding: 10px;" valign="middle">
+		<div vflex="1">
+			<hlayout style="padding: 10px;" valign="middle" height="50px">
 				<label id="infoResultlabel" value="Total: 0 kejadian" sclass="infoResultLabel"></label>
 				<button id="newButton" label="Tambah" sclass="modButton" visible="false"></button>
 			</hlayout>	
-			<listbox id="tkpListbox" mold="paging" pageSize="12" height="510px">
+			<listbox id="tkpListbox" mold="paging" autopaging="true" vflex="1">
 				<listhead>
 					<listheader label="ID" width="185px"/>
 					<listheader label="TW" width="205px"/>
@@ -25,6 +25,9 @@
 					<listheader width="120px"/>
 					<!-- Migrasi -->
 					<listheader width="120px"/>
+					<!-- Data Kejadian Hasil Migrasi -->
+					<listheader label="Hasil Migrasi" width="100px"/>
+					<listheader label="Kerugian"/>
 				</listhead>
 			</listbox>	
 		</div>
