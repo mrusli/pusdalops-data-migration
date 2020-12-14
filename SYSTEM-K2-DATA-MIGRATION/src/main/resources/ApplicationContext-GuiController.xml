@@ -95,6 +95,10 @@
 	
 	</bean>
 	
+	<bean id="datetimeDialogWinControl" class="mil.pusdalops.k2.webui.dialog.DateTimeDialogControl" scope="prototype" parent="basisController">
+	
+	</bean>
+	
 	<!-- Migrasi Kejadian -->
 
 	<bean id="kejadianMigrasiListInfoControl" class="mil.pusdalops.k2.webui.migrasi.KejadianMigrasiListInfoControl" scope="prototype" parent="basisController">
@@ -129,6 +133,30 @@
 		<property name="kerugianJenisDao" ref="kerugianJenisDao"></property>
 		<property name="kerugianKondisiDao" ref="kerugianKondisiDao"></property>
 		<property name="kerugianSatuanDao" ref="kerugianSatuanDao"></property>	
+	</bean>
+
+	<bean id="kejadianMenonjolDialogControl" class="mil.pusdalops.k2.webui.migrasi.KejadianMenonjolDialogControl" scope="prototype" parent="basisController">
+		<property name="kejadianDao" ref="kejadianDao"></property>
+		<property name="kotamaopsDao" ref="kotamaopsDao"></property>	
+		<property name="propinsiDao" ref="propinsiDao"></property>
+		<property name="kabupaten_KotamadyaDao" ref="kabupaten_KotamadyaDao"></property>
+		<property name="kecamatanDao" ref="kecamatanDao"></property>
+		<property name="kelurahanDao" ref="kelurahanDao"></property>
+		<property name="kejadianJenisDao" ref="kejadianJenisDao"></property>
+		<property name="kejadianMotifDao" ref="kejadianMotifDao"></property>
+		<property name="kejadianPelakuDao" ref="kejadianPelakuDao"></property>
+	
+	</bean>
+
+	<bean id="kerugianListInfoControl" class="mil.pusdalops.k2.webui.migrasi.KerugianListInfoControl" scope="prototype" parent="basisController">
+		<property name="kejadianDao" ref="kejadianDao"></property>
+	</bean>
+
+	<bean id="kerugianDialogControl" class="mil.pusdalops.k2.webui.migrasi.KerugianDialogControl" scope="prototype" parent="basisController">
+		<property name="kerugianJenisDao" ref="kerugianJenisDao"></property>
+		<property name="kerugianKondisiDao" ref="kerugianKondisiDao"></property>
+		<property name="kerugianSatuanDao" ref="kerugianSatuanDao"></property>	
+	
 	</bean>
 
 	<!-- Synchronisasi -->

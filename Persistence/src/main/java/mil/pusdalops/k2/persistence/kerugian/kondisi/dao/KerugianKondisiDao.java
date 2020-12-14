@@ -20,6 +20,13 @@ public interface KerugianKondisiDao {
 	public List<KerugianKondisi> findAllKerugianKondisi() throws Exception;
 	
 	/**
+	 * @param asc
+	 * @return List<KerugianKondisi>
+	 * @throws Exception
+	 */
+	public List<KerugianKondisi> findAllKerugianKondisiByOrder(boolean asc) throws Exception;
+	
+	/**
 	 * @param kerugianKondisi
 	 * @return Long
 	 * @throws Exception
@@ -40,4 +47,6 @@ public interface KerugianKondisiDao {
 	 * @throws Exception
 	 */
 	public KerugianKondisi findKerugianKondisiByName(String sqlKondisi) throws Exception;
+
+
 }

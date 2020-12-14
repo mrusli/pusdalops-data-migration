@@ -1,4 +1,13 @@
-@CHARSET "ISO-8859-1";
+@charset "ISO-8859-1";
+
+.mainWindow {
+	background: #d9251c;
+	padding: 0px;
+}
+
+.mainWindow > .z-window-content {
+	background: #d9251c;
+}
 
 h3 {
 	color: yellow;

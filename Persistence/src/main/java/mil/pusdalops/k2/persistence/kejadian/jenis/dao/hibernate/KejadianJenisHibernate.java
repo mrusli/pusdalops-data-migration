@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import mil.pusdalops.domain.kejadian.KejadianJenis;
@@ -18,6 +19,26 @@ public class KejadianJenisHibernate extends DaoHibernate implements KejadianJeni
 		return (KejadianJenis) super.findById(KejadianJenis.class, id);
 	}
 
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<KejadianJenis> findAllKejadianJenisOrderBy(boolean asc) throws Exception {
+		Session session = getSessionFactory().openSession();
+		
+		Criteria criteria = session.createCriteria(KejadianJenis.class);
+		criteria.addOrder(asc ? Order.asc("namaJenis") : Order.desc("namaJenis"));
+		
+		try {
+			
+			return criteria.list();
+			
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			session.close();
+		}
+	}	
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<KejadianJenis> findAllKejadianJenis() throws Exception {

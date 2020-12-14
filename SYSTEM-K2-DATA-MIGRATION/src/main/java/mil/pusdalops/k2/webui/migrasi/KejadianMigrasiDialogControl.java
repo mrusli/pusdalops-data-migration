@@ -44,6 +44,7 @@ import mil.pusdalops.k2.persistence.kotamaops.dao.KotamaopsDao;
 import mil.pusdalops.k2.persistence.propinsi.dao.PropinsiDao;
 import mil.pusdalops.k2.persistence.sql.kronologis.dao.KronologisSqlDao;
 import mil.pusdalops.k2.webui.common.GFCBaseController;
+import mil.pusdalops.k2.webui.dialog.DatetimeData;
 import mil.pusdalops.k2.webui.dialog.KabupatenData;
 import mil.pusdalops.k2.webui.dialog.KecamatanData;
 import mil.pusdalops.k2.webui.dialog.KejadianJenisData;
@@ -182,7 +183,7 @@ public class KejadianMigrasiDialogControl extends GFCBaseController {
 			throw new Exception("Jam: "+
 					hour+":"+
 					mint+
-					" tidak sesuai");			
+					" tidak sesuai. ID:"+getTkp().getId()+"/"+getTkp().getId_str());			
 		}
 		return localtime;
 	}
@@ -197,7 +198,7 @@ public class KejadianMigrasiDialogControl extends GFCBaseController {
 					thn+"-"+
 					month+"-"+
 					day+"-"+
-					" tidak sesuai");
+					" tidak sesuai. ID:"+getTkp().getId()+"/"+getTkp().getId_str());
 		}
 		return localdate;
 	}
@@ -524,6 +525,53 @@ public class KejadianMigrasiDialogControl extends GFCBaseController {
 		}
 	}
 
+	public void onClick$twJadiRubahButton(Event event) throws Exception {
+		// create the data object
+		DatetimeData datetimeData = new DatetimeData();
+		// set the dialog title
+		datetimeData.setDialogWinTitle("Rubah TW Kejadian");
+		
+		// set timezoneInd
+		for (TimezoneInd timezoneInd : TimezoneInd.values()) {
+			if (timezoneInd.toString().compareTo(getTkp().getKETWAKTUACT())==0) {
+				datetimeData.setTimezoneInd(timezoneInd);
+				datetimeData.setZoneId(timezoneInd.toZoneId(timezoneInd.ordinal()));
+				
+				break;
+			}
+		}
+		// set localdatetime
+		datetimeData.setLocalDateTime(convertTkpTw(getTkp().getTHNACT(), getTkp().getTWACT()));
+		log.info("Assign to DatetimeData: "+datetimeData.toString());
+		
+		Map<String, DatetimeData> args = Collections.singletonMap("datetimeData", datetimeData);
+		Window datetimeWin = (Window) Executions.createComponents(
+				"/dialog/DatetimeWinDialog.zul", kejadianMigrasiDialogWin, args);
+		datetimeWin.addEventListener(Events.ON_CHANGE, new EventListener<Event>() {
+
+			@Override
+			public void onEvent(Event event) throws Exception {
+				DatetimeData datetimeData = (DatetimeData) event.getData();
+				log.info(datetimeData.toString());
+				
+				// year
+				twJadiTahunTextbox.setValue(getLocalDateTimeString(datetimeData.getLocalDateTime(), "YYYY"));
+				
+				// MMdd.HHmm
+				twJadiTanggalJamTextbox.setValue(
+					getLocalDateTimeString(datetimeData.getLocalDateTime(), "MMdd")+"."+
+					getLocalDateTimeString(datetimeData.getLocalDateTime(), "HHmm"));
+				
+				// zone waktu
+				twJadiTimeZoneTextbox.setValue(datetimeData.getTimezoneInd().toString());
+				// save the object in the attribute
+				twJadiTimeZoneTextbox.setAttribute("twJadiTimeZoneInd", datetimeData.getTimezoneInd());
+			}
+		});
+		
+		datetimeWin.doModal();
+	}
+	
 	public void onSelect$kotamaopsCombobox(Event event) throws Exception {
 		Map<String, String> args = Collections.singletonMap("namaKotamaops", getTkp().getKOTAMAOPS());
 		Window kotamaopsListWin = (Window) Executions.createComponents("/dialog/KotamaopsListDialog.zul", kejadianMigrasiDialogWin, args);
@@ -1071,6 +1119,30 @@ public class KejadianMigrasiDialogControl extends GFCBaseController {
 	
 	
 	public void onClick$saveButton(Event event) throws Exception {
+		if (kotamaopsCombobox.getSelectedItem()==null) {
+			throw new Exception("Belum memilih Kotamaops.");
+		}
+		if (propinsiCombobox.getSelectedItem()==null) {
+			throw new Exception("Belum memilih Propinsi.");
+		}
+		if (kabupatenCombobox.getSelectedItem()==null) {
+			throw new Exception("Belum memilih Kabupaten.");
+		}
+		if (kecamatanCombobox.getSelectedItem()==null) {
+			throw new Exception("Belum memilih Kecamatan.");
+		}
+		if (kelurahanCombobox.getSelectedItem()==null) {
+			throw new Exception("Belum memilih Kelurahan.");
+		}
+		if (jenisKejadianCombobox.getSelectedItem()==null) {
+			throw new Exception("Belum memilih Jenis Kejadian.");
+		}
+		if (motifKejadianCombobox.getSelectedItem()==null) {
+			throw new Exception("Belum memilih Motif Kejadian.");
+		}
+		if (pelakuKejadianCombobox.getSelectedItem()==null) {
+			throw new Exception("Belum memilih Pelaku Kejadian.");
+		}
 		// get the modified data
 		Kejadian kejadian = new Kejadian();
 		kejadian.setCreatedAt(asDate(getCurrentLocalDateTime()));
@@ -1080,7 +1152,6 @@ public class KejadianMigrasiDialogControl extends GFCBaseController {
 		LocalDateTime twPembuatanLocalDateTime = 
 				convertTkpTw(twBuatTahunTextbox.getValue(), 
 						twBuatTanggalJamTextbox.getValue());
-		// System.out.println(twPembuatanLocalDateTime);
 		kejadian.setTwPembuatanDateTime(asDate(twPembuatanLocalDateTime));
 		kejadian.setTwPembuatanTimezone(
 				twBuatTimeZoneCombobox.getSelectedItem().getValue());
@@ -1106,7 +1177,6 @@ public class KejadianMigrasiDialogControl extends GFCBaseController {
 		
 		kejadian.setJenisKejadian(jenisKejadianCombobox.getSelectedItem().getValue());
 		kejadian.setMotifKejadian(motifKejadianCombobox.getSelectedItem().getValue());
-		kejadian.setPelakuKejadian(pelakuKejadianCombobox.getSelectedItem().getValue());
 		kejadian.setPelakuKejadian(pelakuKejadianCombobox.getSelectedItem().getValue());
 		
 		kejadian.setKeteranganPelaku(ketPelakuTextbox.getValue());

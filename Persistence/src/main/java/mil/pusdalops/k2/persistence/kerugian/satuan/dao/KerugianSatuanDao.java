@@ -24,6 +24,13 @@ public interface KerugianSatuanDao {
 	public List<KerugianSatuan> findAllKerugianSatuan() throws Exception;
 	
 	/**
+	 * @param asc
+	 * @return List<KerugianSatuan>
+	 * @throws Exception
+	 */
+	public List<KerugianSatuan> findAllKerugianSatuanByOrder(boolean asc) throws Exception;
+	
+	/**
 	 * Save
 	 * 
 	 * @param kerugianSatuan
@@ -48,4 +55,6 @@ public interface KerugianSatuanDao {
 	 * @throws Exception
 	 */
 	public KerugianSatuan findKerugianSatuanByName(String sqlSatuan) throws Exception;
+
+	
 }

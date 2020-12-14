@@ -10,7 +10,9 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.Hlayout;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
@@ -21,6 +23,7 @@ import org.zkoss.zul.Window;
 
 import mil.pusdalops.domain.gmt.TimezoneInd;
 import mil.pusdalops.domain.kejadian.Kejadian;
+import mil.pusdalops.domain.kerugian.Pihak;
 import mil.pusdalops.domain.kotamaops.Kotamaops;
 import mil.pusdalops.domain.settings.Settings;
 import mil.pusdalops.k2.domain.sql.Tkp;
@@ -60,6 +63,9 @@ public class KejadianMigrasiListInfoControl extends GFCBaseController {
 		setKotamaops(
 				getSettings().getSelectedKotamaops());
 		
+		log.info("Creating kejadianMigrasiListInfoWin control for Kotamaops: "+
+				getKotamaops().getKotamaopsName());
+		
 		TimezoneInd timezoneInd = getKotamaops().getTimeZone();
 		int timezoneIndOrdinal = timezoneInd.ordinal();
 		
@@ -92,6 +98,8 @@ public class KejadianMigrasiListInfoControl extends GFCBaseController {
 			public void render(Listitem item, Tkp tkp, int index) throws Exception {
 				Listcell lc;
 				
+				item.setSclass("autopaging-content-kejadian-menonjol");
+				
 				// ID - idr_str
 				lc = new Listcell(tkp.getId_str());
 				lc.setParent(item);
@@ -118,6 +126,14 @@ public class KejadianMigrasiListInfoControl extends GFCBaseController {
 				
 				// Migrasi - button to migrate
 				lc = initMigrasi(new Listcell(), tkp);
+				lc.setParent(item);
+				
+				// Data Kejadian Hasil Migrasi
+				lc = initKejadianHasilMigrasi(new Listcell(), tkp);
+				lc.setParent(item);
+				
+				// Data Kejadian - Kerugian (pihak Kita, Musuh, Lain)
+				lc = initKejadianKerugianHasilMigrasi(new Listcell(), tkp);
 				lc.setParent(item);
 				
 				item.setValue(tkp);
@@ -161,6 +177,8 @@ public class KejadianMigrasiListInfoControl extends GFCBaseController {
 
 					@Override
 					public void onEvent(Event event) throws Exception {
+						log.info("TKP id: "+tkp.getId()+"/"+tkp.getId_str()+"/"+tkp.getId_tkp());
+						
 						MigrasiData migrasiData = new MigrasiData();
 						migrasiData.setTkp(tkp);
 						migrasiData.setCurrentSettings(getSettings());
@@ -201,11 +219,141 @@ public class KejadianMigrasiListInfoControl extends GFCBaseController {
 				
 				return listcell;
 			}
+			
+			private Listcell initKejadianHasilMigrasi(Listcell listcell, Tkp tkp) {
+				Button kejadianButton = new Button();
+				kejadianButton.setLabel("Kejadian");
+				kejadianButton.setClass("kejadianHasilMigrasiButton");
+				kejadianButton.setParent(listcell);
+				kejadianButton.setDisabled(tkp.getKejadian()==null);
+				kejadianButton.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
 
+					@Override
+					public void onEvent(Event event) throws Exception {
+						Tkp tkpKejadianByProxy = getTkpSqlDao().findTkpKejadianByProxy(tkp.getId());
+						Kejadian kejadian = tkpKejadianByProxy.getKejadian();
+						
+						KejadianData kejadianData = new KejadianData();
+						kejadianData.setKejadian(kejadian);
+						kejadianData.setSettingsKotamaops(getKotamaops());
+						
+						Map<String, KejadianData> args = Collections.singletonMap("kejadianData", kejadianData);
+						Window kejadianDialogWin = (Window) Executions.createComponents(
+								"/migrasi/kejadian/KejadianMenonjolDialog.zul", kejadianMigrasiListInfoWin, args);
+						kejadianDialogWin.addEventListener(Events.ON_CHANGE, new EventListener<Event>() {
+
+							@Override
+							public void onEvent(Event event) throws Exception {
+								log.info("Data Kejadian Changed...");
+								Kejadian userModKejadian = (Kejadian) event.getData();
+								
+								// set
+								tkpKejadianByProxy.setKejadian(userModKejadian);
+								
+								// update
+								getTkpSqlDao().update(tkpKejadianByProxy);
+								
+								Clients.showNotification("Kejadian Data berhasil disimpan.");
+								
+							}
+						});
+						kejadianDialogWin.addEventListener(Events.ON_CANCEL, new EventListener<Event>() {
+
+							@Override
+							public void onEvent(Event event) throws Exception {
+								log.info("Data Kejadian UnChanged...");
+								
+							}
+						});
+						
+						kejadianDialogWin.doModal();
+					}
+				});
+				return listcell;
+			}
+			
+			private Listcell initKejadianKerugianHasilMigrasi(Listcell listcell, Tkp tkp) throws Exception {
+				Tkp tkpKejadianByProxy = getTkpSqlDao().findTkpKejadianByProxy(tkp.getId());
+				Kejadian kejadian = tkpKejadianByProxy.getKejadian();
+				
+				Hlayout hlayout = new Hlayout();
+				// PIHAK KITA
+				Button phkKitaButton = new Button();
+				phkKitaButton.setLabel("Pihak Kita");
+				phkKitaButton.setClass("phkKitaKerugianEditButton");
+				phkKitaButton.setParent(hlayout);
+				phkKitaButton.setDisabled(tkp.getKejadian()==null);
+				phkKitaButton.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event event) throws Exception {
+						KejadianData kejadianData = new KejadianData();
+						kejadianData.setParaPihak(Pihak.KITA);
+						kejadianData.setKejadian(kejadian);
+						
+						Map<String, KejadianData> args = Collections.singletonMap("kejadianData", kejadianData);
+						Window kerugianDialogWin = 
+								(Window) Executions.createComponents(
+										"/migrasi/kejadian/KerugianListInfo.zul", kejadianMigrasiListInfoWin, args);
+						kerugianDialogWin.doModal();
+					}
+				});
+
+				// PIHAK MUSUH
+				Button phkMusuhButton = new Button();
+				phkMusuhButton.setLabel("Pihak Musuh");
+				phkMusuhButton.setClass("phkMusuhKerugianEditButton");
+				phkMusuhButton.setParent(hlayout);
+				phkMusuhButton.setDisabled(tkp.getKejadian()==null);
+				phkMusuhButton.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event event) throws Exception {
+						KejadianData kejadianData = new KejadianData();
+						kejadianData.setParaPihak(Pihak.MUSUH);
+						kejadianData.setKejadian(kejadian);
+
+						Map<String, KejadianData> args = Collections.singletonMap("kejadianData", kejadianData);
+						Window kerugianDialogWin = 
+								(Window) Executions.createComponents(
+										"/migrasi/kejadian/KerugianListInfo.zul", kejadianMigrasiListInfoWin, args);
+						kerugianDialogWin.doModal();
+						
+					}
+				});
+
+				// PIHAK LAIN-LAIN
+				Button phkLainButton = new Button();
+				phkLainButton.setLabel("Pihak Lain");
+				phkLainButton.setClass("phkLainKerugianEditButton");
+				phkLainButton.setParent(hlayout);
+				phkLainButton.setDisabled(tkp.getKejadian()==null);
+				phkLainButton.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event event) throws Exception {
+						KejadianData kejadianData = new KejadianData();
+						kejadianData.setParaPihak(Pihak.LAIN_LAIN);
+						kejadianData.setKejadian(kejadian);
+						
+						Map<String, KejadianData> args = Collections.singletonMap("kejadianData", kejadianData);
+						Window kerugianDialogWin = 
+								(Window) Executions.createComponents(
+										"/migrasi/kejadian/KerugianListInfo.zul", kejadianMigrasiListInfoWin, args);
+						kerugianDialogWin.doModal();
+
+					}
+				});
+				
+				// set all buttons in hlayout into listcell
+				hlayout.setParent(listcell);
+				
+				return listcell;
+			}
 		};
 	}
 	
-	public void onClick$tkpListbox(Event event) throws Exception {
+	public void onAfterRender$tkpListbox(Event event) throws Exception {
 		infoResultlabel.setValue("Total: "+tkpListbox.getItemCount()+" kejadian");
 	}
 

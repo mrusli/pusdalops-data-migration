@@ -1,9 +1,9 @@
-<?page title="KejadianMigrasiDialog" contentType="text/html;charset=UTF-8"?>
+<?page title="Kejadian Menonjol" contentType="text/html;charset=UTF-8"?>
 <zk>
-<window id="kejadianMigrasiDialogWin" border="normal" 
-	width="900px" height="660px" apply="${kejadianMigrasiDialogControl}">
+<window id="kejadianMenonjolDialogWin" border="normal" 
+	width="920px" height="630px" apply="${kejadianMenonjolDialogControl}">
 	<vbox>
-		<grid width="840px">
+		<grid width="860px">
 			<rows>
 				<row>
 					<cell width="15%">
@@ -15,13 +15,13 @@
 					<cell width="15%">
 					
 					</cell>
-					<cell width="30%">
-					
+					<cell align="right">
+						<label id="idLabel" style="font-size:9px"></label>
 					</cell>	
 				</row>
 			</rows>
 		</grid>
-		<grid width="840px">
+		<grid width="860px">
 			<rows>
 				<row>
 					<cell width="15%">
@@ -32,14 +32,14 @@
 						<textbox id="twBuatTanggalJamTextbox" width="100px" sclass="dlg-textbox" disabled="true"></textbox>
 						<combobox id="twBuatTimeZoneCombobox" width="80px" sclass="dlg-combobox" disabled="true"></combobox>						
 					</cell>
-					<cell width="15%">
+					<cell width="17%">
 						<label value="TW.Kejadian:" style="font-size:14px;"></label>	
 					</cell>
-					<cell width="30%">
+					<cell>
 						<textbox id="twJadiTahunTextbox" width="60px" disabled="true" sclass="dlg-textbox"></textbox>
 						<textbox id="twJadiTanggalJamTextbox" width="100px" disabled="true" sclass="dlg-textbox"></textbox>
 						<textbox id="twJadiTimeZoneTextbox" width="42px" disabled="true" sclass="dlg-textbox"></textbox>
-						<button id="twJadiRubahButton" label="..." sclass="modButton" disabled="false"></button>
+						<button id="twJadiRubahButton" label="..." sclass="modButton"></button>
 					</cell>
 				</row>
 				<row>
@@ -53,7 +53,7 @@
 						<label value="Propinsi:" style="font-size:14px;"></label>
 					</cell>
 					<cell>
-						<combobox id="propinsiCombobox" width="240px" sclass="dlg-combobox"></combobox>
+						<combobox id="propCombobox" width="240px" sclass="dlg-combobox"></combobox>
 					</cell>
 				</row>
 				<row>
@@ -129,7 +129,7 @@
 				</row>
 			</rows>
 		</grid>
-		<groupbox width="840px">
+		<groupbox width="860px" closable="false">
 			<caption label="Kejadian"></caption>
 			<grid>
 				<rows>
@@ -140,7 +140,7 @@
 						<cell width="30%">
 							<combobox id="jenisKejadianCombobox" width="240px" sclass="dlg-combobox"></combobox>						
 						</cell>
-						<cell width="15%">
+						<cell width="17%">
 							<label value="Motif:" style="font-size:14px;"></label>	
 						</cell>
 						<cell width="30%">
@@ -149,16 +149,16 @@
 					</row>
 					<row>
 						<cell>
-							<label value="Pelaku:" style="font-size:14px;"></label>
+							<label value="Pelaku Kejadian:" style="font-size:14px;"></label>						
 						</cell>
 						<cell>
 							<combobox id="pelakuKejadianCombobox" width="240px" sclass="dlg-combobox"></combobox>
 						</cell>
 						<cell>
-							<label value="Ket.Pelaku:" style="font-size:14px;"></label>
+							<label value="Keterangan Pelaku:" style="font-size:14px;"></label>						
 						</cell>
 						<cell>
-							<textbox id="ketPelakuTextbox" width="240px" sclass="dlg-textbox"></textbox>
+							<textbox id="keteranganPelakuTextbox" width="240px" sclass="dlg-textbox"></textbox>						
 						</cell>
 					</row>
 					<row>
@@ -178,14 +178,14 @@
 				</rows>		
 			</grid>
 		</groupbox>
-		<groupbox width="840px">
+		<groupbox width="860px" closable="false">
 			<caption label="Kronologis"></caption>
-			<textbox id="kronologisTextbox" rows="3" width="800px"></textbox>
+			<textbox id="kronologisTextbox" rows="3" width="825px"></textbox>
 		</groupbox>
 	</vbox>
 	<hlayout style="padding-top: 5px;">
-		<button id="saveButton" label="Simpan" sclass="comButton"></button>
-		<button id="cancelButton" label="Batal" sclass="comButton"></button>	
+		<button id="saveButton" label="Simpan" sclass="comButton"></button>		
+		<button id="cancelButton" label="Tutup" sclass="comButton"></button>	
 	</hlayout>	
 </window>
 </zk>
