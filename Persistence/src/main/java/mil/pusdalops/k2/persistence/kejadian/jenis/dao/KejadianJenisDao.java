@@ -12,6 +12,13 @@ public interface KejadianJenisDao {
 	 * @throws Exception
 	 */
 	public KejadianJenis findKejadianJenisById(long id) throws Exception;
+
+	/**
+	 * @param asc
+	 * @return List<KejadianJenis>
+	 * @throws Exception
+	 */
+	public List<KejadianJenis> findAllKejadianJenisOrderBy(boolean asc) throws Exception;
 	
 	/**
 	 * @return List<KejadianJenis>
@@ -40,5 +47,6 @@ public interface KejadianJenisDao {
 	 * @throws Exception
 	 */
 	public KejadianJenis findKejadianJenisByName(String kejadianJenisName) throws Exception;
+
 	
 }

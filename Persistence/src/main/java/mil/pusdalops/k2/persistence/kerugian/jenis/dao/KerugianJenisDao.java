@@ -20,6 +20,13 @@ public interface KerugianJenisDao {
 	public List<KerugianJenis> findAllKerugianJenis() throws Exception;
 	
 	/**
+	 * @param asc
+	 * @return List<KerugianJenis>
+	 * @throws Exception
+	 */
+	public List<KerugianJenis> findAllKerugianJenisByOrder(boolean asc) throws Exception;
+	
+	/**
 	 * @param kerugianJenis
 	 * @return Long
 	 * @throws Exception
@@ -40,4 +47,5 @@ public interface KerugianJenisDao {
 	 * @throws Exception
 	 */
 	public KerugianJenis findKerugianJenisByName(String sqlJenis) throws Exception;
+
 }

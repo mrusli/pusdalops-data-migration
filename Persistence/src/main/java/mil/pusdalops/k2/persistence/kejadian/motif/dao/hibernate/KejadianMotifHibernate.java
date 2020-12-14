@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import mil.pusdalops.domain.kejadian.KejadianMotif;
@@ -25,6 +26,25 @@ public class KejadianMotifHibernate extends DaoHibernate implements KejadianMoti
 		return super.findAll(KejadianMotif.class);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<KejadianMotif> findAllKejadianMotifOrderBy(boolean asc) throws Exception {
+		Session session = getSessionFactory().openSession();
+		
+		Criteria criteria = session.createCriteria(KejadianMotif.class);
+		criteria.addOrder(asc ? Order.asc("namaMotif") : Order.desc("namaMotif"));
+		
+		try {
+
+			return criteria.list();
+			
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			session.close();
+		}
+	}
+	
 	@Override
 	public Long save(KejadianMotif kejadianMotif) throws Exception {
 

@@ -353,7 +353,7 @@ public class KejadianMigrasiListInfoControl extends GFCBaseController {
 		};
 	}
 	
-	public void onClick$tkpListbox(Event event) throws Exception {
+	public void onAfterRender$tkpListbox(Event event) throws Exception {
 		infoResultlabel.setValue("Total: "+tkpListbox.getItemCount()+" kejadian");
 	}
 

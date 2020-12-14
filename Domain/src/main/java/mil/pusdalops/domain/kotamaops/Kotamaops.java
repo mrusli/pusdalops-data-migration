@@ -106,6 +106,136 @@ public class Kotamaops extends IdBasedObject {
 			inverseJoinColumns = @JoinColumn(name = "id_kotamaops_d"))
 	private List<Kotamaops> kotamaops;
 	
+	@Override
+	public String toString() {
+		return "Kotamaops [kotamaopsType=" + kotamaopsType + ", kotamaopsName=" + kotamaopsName
+				+ ", kotamaopsDisplayName=" + kotamaopsDisplayName + ", imagedId=" + imagedId + ", imageId01="
+				+ imageId01 + ", address01=" + address01 + ", address02=" + address02 + ", city=" + city
+				+ ", postalCode=" + postalCode + ", phone=" + phone + ", email=" + email + ", fax=" + fax
+				+ ", timeZone=" + timeZone + "]";
+	}
+
+	
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((address01 == null) ? 0 : address01.hashCode());
+		result = prime * result + ((address02 == null) ? 0 : address02.hashCode());
+		result = prime * result + ((city == null) ? 0 : city.hashCode());
+		result = prime * result + ((documentCode == null) ? 0 : documentCode.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((fax == null) ? 0 : fax.hashCode());
+		result = prime * result + ((imageId01 == null) ? 0 : imageId01.hashCode());
+		result = prime * result + ((imagedId == null) ? 0 : imagedId.hashCode());
+		result = prime * result + ((kotamaops == null) ? 0 : kotamaops.hashCode());
+		result = prime * result + ((kotamaopsDisplayName == null) ? 0 : kotamaopsDisplayName.hashCode());
+		result = prime * result + ((kotamaopsName == null) ? 0 : kotamaopsName.hashCode());
+		result = prime * result + ((kotamaopsType == null) ? 0 : kotamaopsType.hashCode());
+		result = prime * result + ((personels == null) ? 0 : personels.hashCode());
+		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
+		result = prime * result + ((postalCode == null) ? 0 : postalCode.hashCode());
+		result = prime * result + ((propinsis == null) ? 0 : propinsis.hashCode());
+		result = prime * result + ((timeZone == null) ? 0 : timeZone.hashCode());
+		return result;
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Kotamaops other = (Kotamaops) obj;
+		if (address01 == null) {
+			if (other.address01 != null)
+				return false;
+		} else if (!address01.equals(other.address01))
+			return false;
+		if (address02 == null) {
+			if (other.address02 != null)
+				return false;
+		} else if (!address02.equals(other.address02))
+			return false;
+		if (city == null) {
+			if (other.city != null)
+				return false;
+		} else if (!city.equals(other.city))
+			return false;
+		if (documentCode == null) {
+			if (other.documentCode != null)
+				return false;
+		} else if (!documentCode.equals(other.documentCode))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (fax == null) {
+			if (other.fax != null)
+				return false;
+		} else if (!fax.equals(other.fax))
+			return false;
+		if (imageId01 == null) {
+			if (other.imageId01 != null)
+				return false;
+		} else if (!imageId01.equals(other.imageId01))
+			return false;
+		if (imagedId == null) {
+			if (other.imagedId != null)
+				return false;
+		} else if (!imagedId.equals(other.imagedId))
+			return false;
+		if (kotamaops == null) {
+			if (other.kotamaops != null)
+				return false;
+		} else if (!kotamaops.equals(other.kotamaops))
+			return false;
+		if (kotamaopsDisplayName == null) {
+			if (other.kotamaopsDisplayName != null)
+				return false;
+		} else if (!kotamaopsDisplayName.equals(other.kotamaopsDisplayName))
+			return false;
+		if (kotamaopsName == null) {
+			if (other.kotamaopsName != null)
+				return false;
+		} else if (!kotamaopsName.equals(other.kotamaopsName))
+			return false;
+		if (kotamaopsType != other.kotamaopsType)
+			return false;
+		if (personels == null) {
+			if (other.personels != null)
+				return false;
+		} else if (!personels.equals(other.personels))
+			return false;
+		if (phone == null) {
+			if (other.phone != null)
+				return false;
+		} else if (!phone.equals(other.phone))
+			return false;
+		if (postalCode == null) {
+			if (other.postalCode != null)
+				return false;
+		} else if (!postalCode.equals(other.postalCode))
+			return false;
+		if (propinsis == null) {
+			if (other.propinsis != null)
+				return false;
+		} else if (!propinsis.equals(other.propinsis))
+			return false;
+		if (timeZone != other.timeZone)
+			return false;
+		return true;
+	}
+
+
+
 	/**
 	 * @return the kotamaopsType
 	 */
@@ -284,91 +414,6 @@ public class Kotamaops extends IdBasedObject {
 
 	public void setKotamaops(List<Kotamaops> kotamaops) {
 		this.kotamaops = kotamaops;
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((address01 == null) ? 0 : address01.hashCode());
-		result = prime * result + ((address02 == null) ? 0 : address02.hashCode());
-		result = prime * result + ((city == null) ? 0 : city.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((fax == null) ? 0 : fax.hashCode());
-		result = prime * result + ((imagedId == null) ? 0 : imagedId.hashCode());
-		result = prime * result + ((kotamaopsDisplayName == null) ? 0 : kotamaopsDisplayName.hashCode());
-		result = prime * result + ((kotamaopsName == null) ? 0 : kotamaopsName.hashCode());
-		result = prime * result + ((kotamaopsType == null) ? 0 : kotamaopsType.hashCode());
-		result = prime * result + ((phone == null) ? 0 : phone.hashCode());
-		result = prime * result + ((postalCode == null) ? 0 : postalCode.hashCode());
-		result = prime * result + ((timeZone == null) ? 0 : timeZone.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Kotamaops other = (Kotamaops) obj;
-		if (address01 == null) {
-			if (other.address01 != null)
-				return false;
-		} else if (!address01.equals(other.address01))
-			return false;
-		if (address02 == null) {
-			if (other.address02 != null)
-				return false;
-		} else if (!address02.equals(other.address02))
-			return false;
-		if (city == null) {
-			if (other.city != null)
-				return false;
-		} else if (!city.equals(other.city))
-			return false;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (fax == null) {
-			if (other.fax != null)
-				return false;
-		} else if (!fax.equals(other.fax))
-			return false;
-		if (imagedId == null) {
-			if (other.imagedId != null)
-				return false;
-		} else if (!imagedId.equals(other.imagedId))
-			return false;
-		if (kotamaopsDisplayName == null) {
-			if (other.kotamaopsDisplayName != null)
-				return false;
-		} else if (!kotamaopsDisplayName.equals(other.kotamaopsDisplayName))
-			return false;
-		if (kotamaopsName == null) {
-			if (other.kotamaopsName != null)
-				return false;
-		} else if (!kotamaopsName.equals(other.kotamaopsName))
-			return false;
-		if (kotamaopsType != other.kotamaopsType)
-			return false;
-		if (phone == null) {
-			if (other.phone != null)
-				return false;
-		} else if (!phone.equals(other.phone))
-			return false;
-		if (postalCode == null) {
-			if (other.postalCode != null)
-				return false;
-		} else if (!postalCode.equals(other.postalCode))
-			return false;
-		if (timeZone != other.timeZone)
-			return false;
-		return true;
 	}
 
 	public String getDocumentCode() {

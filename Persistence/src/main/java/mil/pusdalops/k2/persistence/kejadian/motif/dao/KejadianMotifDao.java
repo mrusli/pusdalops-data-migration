@@ -14,6 +14,13 @@ public interface KejadianMotifDao {
 	public KejadianMotif findKejadianMotifById(long id) throws Exception;
 	
 	/**
+	 * @param asc
+	 * @return List<KejadianMotif>
+	 * @throws Exception
+	 */
+	public List<KejadianMotif> findAllKejadianMotifOrderBy(boolean asc) throws Exception;
+	
+	/**
 	 * @return List<KejadianMotif>
 	 * @throws Exception
 	 */
@@ -40,5 +47,7 @@ public interface KejadianMotifDao {
 	 * @throws Exception
 	 */
 	public KejadianMotif findKejadianMotifByName(String kejadianMotifName) throws Exception;
+
+	
 
 }

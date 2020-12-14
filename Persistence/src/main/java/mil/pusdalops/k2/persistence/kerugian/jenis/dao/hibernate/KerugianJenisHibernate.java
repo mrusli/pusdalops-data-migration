@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 
 import mil.pusdalops.domain.kerugian.KerugianJenis;
@@ -25,6 +26,26 @@ public class KerugianJenisHibernate extends DaoHibernate implements KerugianJeni
 		return super.findAll(KerugianJenis.class);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<KerugianJenis> findAllKerugianJenisByOrder(boolean asc) throws Exception {
+		Session session = getSessionFactory().openSession();
+		
+		Criteria criteria = session.createCriteria(KerugianJenis.class);
+		criteria.addOrder(asc ? Order.asc("namaJenis") : Order.desc("namaJenis"));
+		
+		try {
+			
+			return criteria.list();
+			
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			session.close();
+		}
+
+	}
+	
 	@Override
 	public Long save(KerugianJenis kerugianJenis) throws Exception {
 		
