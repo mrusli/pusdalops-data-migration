@@ -88,6 +88,7 @@ public class KejadianMenonjolSinkronisasiDialogControl extends GFCBaseController
 	private Map<Boolean, Kelurahan> kelurahanReferenceMap = new HashMap<Boolean, Kelurahan>();
 	private Map<Boolean, KejadianJenis> kejadianJenisReferenceMap = new HashMap<Boolean, KejadianJenis>();
 	private Map<Boolean, KejadianMotif> kejadianMotifReferenceMap = new HashMap<Boolean, KejadianMotif>();
+	// private Map<Boolean, KejadianPelaku> kejadianPelakuReferenceMap = new HashMap<Boolean, KejadianPelaku>();
 	
 	private static Logger log = Logger.getLogger(KejadianMenonjolSinkronisasiDialogControl.class);
 	
@@ -872,6 +873,9 @@ public class KejadianMenonjolSinkronisasiDialogControl extends GFCBaseController
 		
 		kejadian.setJenisKejadian(kejadianJenisReferenceMap.get(Boolean.TRUE));
 		kejadian.setMotifKejadian(kejadianMotifReferenceMap.get(Boolean.TRUE));
+		
+		kejadian.setPelakuKejadian(cloudKejadian.getPelakuKejadian());
+		kejadian.setKeteranganPelaku(cloudKejadian.getKeteranganPelaku());
 		
 		kejadian.setSasaran(cloudKejadian.getSasaran());
 		

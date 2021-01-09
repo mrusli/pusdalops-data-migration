@@ -163,6 +163,8 @@
 
 	<bean id="kejadianMenonjolSinkronisasiListInfoControl" class="mil.pusdalops.k2.webui.sinkronisasi.KejadianMenonjolSinkronisasiListInfoControl" scope="prototype" parent="basisController">
 		<property name="settingsDao" ref="settingsDao"></property>	
+		<property name="kejadianDao" ref="kejadianDao"></property>
+		
 	</bean>
 	
 	<bean id="kejadianMenonjolSinkronisasiDialogControl" class="mil.pusdalops.k2.webui.sinkronisasi.KejadianMenonjolSinkronisasiDialogControl" scope="prototype" parent="basisController">
@@ -177,10 +179,27 @@
 		<property name="kerugianKondisiDao" ref="kerugianKondisiDao"></property>
 		<property name="kerugianSatuanDao" ref="kerugianSatuanDao"></property>	
 	</bean>
+
+	<bean id="kejadianMenonjolDetailControl" class="mil.pusdalops.k2.webui.sinkronisasi.KejadianMenonjolDetailControl" scope="prototype" parent="basisController">
+		<property name="kejadianDao" ref="kejadianDao"></property>
+		
+	</bean>
+
+	<bean id="kejadianKerugianListInfoWinControl" class="mil.pusdalops.k2.webui.sinkronisasi.KejadianKerugianListInfoWinControl" scope="prototype" parent="basisController">
+		<property name="kejadianDao" ref="kejadianDao"></property>
+		
+	</bean>
+
+	<bean id="kerugianDetailControl" class="mil.pusdalops.k2.webui.sinkronisasi.KerugianDetailControl" scope="prototype" parent="basisController">
+	
+	</bean>
+
 	
 	<bean id="sychronizeWinControl" class="mil.pusdalops.k2.webui.synchronize.SychronizeWinControl" scope="prototype" parent="basisController">
 		<property name="settingsDao" ref="settingsDao"></property>
 		<property name="kejadianDao" ref="kejadianDao"></property>	
 	</bean>
+
+
 
 </beans>

@@ -773,6 +773,20 @@ public class KejadianMigrasiDialogControl extends GFCBaseController {
 				setKejadianKabupatenKotamadya(existingKabupatenKot);
 			}
 		});
+		kabupatenListWinDialog.addEventListener(Events.ON_CANCEL, new EventListener<Event>() {
+
+			@Override
+			public void onEvent(Event event) throws Exception {
+				// clear all comboitems
+				kabupatenCombobox.getItems().clear();
+				
+				Comboitem comboitem = new Comboitem();
+				comboitem.setLabel("Tambah Kabupaten/Kot...");
+				comboitem.setParent(kabupatenCombobox);
+				
+				kabupatenCombobox.setValue("--tidak ditemukan--");
+			}
+		});
 		
 		kabupatenListWinDialog.doModal();
 	}
@@ -847,6 +861,20 @@ public class KejadianMigrasiDialogControl extends GFCBaseController {
 				kecamatanCombobox.setSelectedItem(comboitem);
 				// set kejadianKecamatan
 				setKejadianKecamatan(existingKecamatan);
+			}
+		});
+		kecamatanListWinDialog.addEventListener(Events.ON_CANCEL, new EventListener<Event>() {
+
+			@Override
+			public void onEvent(Event event) throws Exception {
+				// clear all comboitems
+				kecamatanCombobox.getItems().clear();
+
+				Comboitem comboitem = new Comboitem();
+				comboitem.setLabel("Tambah Kecamatan...");
+				comboitem.setParent(kecamatanCombobox);
+				
+				kecamatanCombobox.setValue("--tidak ditemukan--");
 			}
 		});
 		
@@ -925,6 +953,22 @@ public class KejadianMigrasiDialogControl extends GFCBaseController {
 				setKejadianKelurahan(existingKelurahan);				
 			}
 		});
+		kelurahanListWinDialog.addEventListener(Events.ON_CANCEL, new EventListener<Event>() {
+
+			@Override
+			public void onEvent(Event event) throws Exception {
+				// clear all comboitem
+				kelurahanCombobox.getItems().clear();
+				
+				Comboitem comboitem = new Comboitem();
+				
+				comboitem.setLabel("Tambah Kelurahan...");
+				comboitem.setParent(kelurahanCombobox);
+				
+				kelurahanCombobox.setValue("--tidak ditemukan---");				
+			}
+		});
+		
 		kelurahanListWinDialog.doModal();
 	}
 	

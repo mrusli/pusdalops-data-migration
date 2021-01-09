@@ -79,11 +79,12 @@ public interface KejadianDao {
 
 	/**
 	 * Find kejadian NOT synch yet -- where pusdalops_synch_datetime is null
+	 * @param pending 
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Kejadian> findAllKejadianNotSynch() throws Exception;
+	public List<Kejadian> findAllKejadianNotSynch(boolean pending) throws Exception;
 
 	/**
 	 * Propinsi is fetched lazy
@@ -120,5 +121,7 @@ public interface KejadianDao {
 	 * @throws Exception
 	 */
 	public Kejadian findKejadianKelurahanByProxy(long id) throws Exception;
+
+	public Kejadian findKejadianBySerialComp(String serialComp) throws Exception;
 	
 }

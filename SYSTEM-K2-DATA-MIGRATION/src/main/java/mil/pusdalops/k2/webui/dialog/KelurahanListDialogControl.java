@@ -127,6 +127,8 @@ public class KelurahanListDialogControl extends GFCBaseController {
 	}
 	
 	public void onClick$cancelButton(Event event) throws Exception {
+		Events.sendEvent(Events.ON_CANCEL, kelurahanListDialogWin, null);			
+
 		kelurahanListDialogWin.detach();
 	}
 

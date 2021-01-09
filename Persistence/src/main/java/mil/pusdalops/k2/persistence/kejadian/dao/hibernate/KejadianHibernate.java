@@ -130,10 +130,14 @@ public class KejadianHibernate extends DaoHibernate implements KejadianDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Kejadian> findAllKejadianNotSynch() throws Exception {
+	public List<Kejadian> findAllKejadianNotSynch(boolean pending) throws Exception {
 		Session session = getSessionFactory().openSession();
 		Criteria criteria = session.createCriteria(Kejadian.class);
-		criteria.add(Restrictions.isNull("pusdalopsSynchAt"));
+		if (pending) {
+			criteria.add(Restrictions.isNull("pusdalopsSynchAt"));			
+		} else {
+			criteria.add(Restrictions.isNotNull("pusdalopsSynchAt"));
+		}
 		
 		try {
 			return criteria.list();
@@ -216,4 +220,24 @@ public class KejadianHibernate extends DaoHibernate implements KejadianDao {
 		}
 	}
 
+	@Override
+	public Kejadian findKejadianBySerialComp(String serialComp) throws Exception {
+		Session session = getSessionFactory().openSession();
+		
+		Criteria criteria = session.createCriteria(Kejadian.class, "kejadian");
+		criteria.createAlias("kejadian.serialNumber", "serialNumber");
+		
+		Kejadian kejadian = (Kejadian) criteria.add(Restrictions.eq("serialNumber.serialComp", serialComp)).uniqueResult();
+		
+		try {
+			
+			return kejadian;
+			
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			session.close();
+		}
+		
+	}
 }

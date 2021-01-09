@@ -11,6 +11,10 @@
 	<center border="none" sclass="centerArea">
 		<div vflex="1">
 			<hlayout style="padding: 10px;" valign="middle" height="50px">
+				Status:
+				<combobox id="statusCombobox" width="160px" sclass="dlg-combobox"></combobox>
+				Tahun:
+				<combobox id="tahunCombobox" width="160px" sclass="dlg-combobox"></combobox>
 				<label id="infoResultlabel" value="Total: 0 kejadian" sclass="infoResultLabel"></label>
 				<button id="newButton" label="Tambah" sclass="modButton" visible="false"></button>
 			</hlayout>	

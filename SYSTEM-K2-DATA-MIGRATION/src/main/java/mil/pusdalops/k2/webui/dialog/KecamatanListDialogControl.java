@@ -124,6 +124,8 @@ public class KecamatanListDialogControl extends GFCBaseController {
 	}
 	
 	public void onClick$cancelButton(Event event) throws Exception {
+		Events.sendEvent(Events.ON_CANCEL, kecamatanListDialogWin, null);			
+
 		kecamatanListDialogWin.detach();
 	}
 

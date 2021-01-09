@@ -2,6 +2,7 @@ package mil.pusdalops.k2.webui.migrasi;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,8 @@ import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zk.ui.util.Clients;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.Combobox;
+import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Hlayout;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
@@ -46,6 +49,7 @@ public class KejadianMigrasiListInfoControl extends GFCBaseController {
 	private Window kejadianMigrasiListInfoWin;
 	private Label formTitleLabel, infoResultlabel;
 	private Listbox tkpListbox;
+	private Combobox statusCombobox, tahunCombobox;
 	
 	private Settings settings;
 	private Kotamaops kotamaops;
@@ -74,15 +78,85 @@ public class KejadianMigrasiListInfoControl extends GFCBaseController {
 		
 		formTitleLabel.setValue("Data Migrasi | Kejadian (dari SQL Server Tabel: TKP KRONOLOGIS KERUGIAN)");
 		
+		// load status
+		loadStatusCombobox();
+		
+		// load tahun
+		loadTahunCombobox();
+		
 		// load tkp sql server data
 		loadTkpSQlServerData();
 		
 		// display tkp sql server data
 		displayTkpListInfo();
 	}
+
+	private void loadStatusCombobox() {
+		String[] statusMigrasi = { "Belum Migrasi" , "Selesai" };
+		
+		Comboitem comboitem;
+		for (String status : statusMigrasi) {
+			comboitem = new Comboitem();
+			comboitem.setLabel(status);
+			comboitem.setValue(status);
+			comboitem.setParent(statusCombobox);
+		}
+		
+		statusCombobox.setSelectedIndex(0);
+	}
+
+	private void loadTahunCombobox() throws Exception {
+		List<String> tkpYear = getTkpSqlDao().findDistinctTkpYear();
+		
+		tkpYear.sort(new Comparator<String>() {
+
+			@Override
+			public int compare(String o1, String o2) {
+				
+				return o2.compareTo(o1);
+			}
+		});
+		
+		Comboitem comboitem;
+		for (String year : tkpYear) {
+			comboitem = new Comboitem();
+			comboitem.setLabel(year);
+			comboitem.setValue(year);
+			comboitem.setParent(tahunCombobox);
+		}
+		
+		tahunCombobox.setSelectedIndex(0);
+	}	
+	
+	public void onSelect$statusCombobox(Event event) throws Exception {
+		// status
+		boolean nonMigration = statusCombobox.getSelectedItem().getValue().equals("Belum Migrasi");
+		// year
+		String year = tahunCombobox.getSelectedItem().getValue();
+		
+		setTkpList(getTkpSqlDao().findAllTkpByStatusYear(nonMigration, year));
+		
+		displayTkpListInfo();
+	}
+	
+	public void onSelect$tahunCombobox(Event event) throws Exception {
+		// status
+		boolean nonMigration = statusCombobox.getSelectedItem().getValue().equals("Belum Migrasi");
+		// year
+		String year = tahunCombobox.getSelectedItem().getValue();
+		
+		setTkpList(getTkpSqlDao().findAllTkpByStatusYear(nonMigration, year));
+		
+		displayTkpListInfo();		
+	}
 	
 	private void loadTkpSQlServerData() throws Exception {
-		setTkpList(getTkpSqlDao().findAllTkp());
+		// init status : 'belum migrasi'
+		boolean nonMigration = statusCombobox.getSelectedItem().getValue().equals("Belum Migrasi");
+		// init tahun : 1st index
+		String year = tahunCombobox.getSelectedItem().getValue();
+		
+		setTkpList(getTkpSqlDao().findAllTkpByStatusYear(nonMigration, year));
 	}
 
 	private void displayTkpListInfo() {

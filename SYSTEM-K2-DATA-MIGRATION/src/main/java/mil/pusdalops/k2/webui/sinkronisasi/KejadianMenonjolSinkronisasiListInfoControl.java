@@ -12,6 +12,8 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.EventListener;
 import org.zkoss.zk.ui.event.Events;
 import org.zkoss.zul.Button;
+import org.zkoss.zul.Combobox;
+import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Label;
 import org.zkoss.zul.ListModelList;
 import org.zkoss.zul.Listbox;
@@ -36,16 +38,19 @@ public class KejadianMenonjolSinkronisasiListInfoControl extends GFCBaseControll
 	private static final long serialVersionUID = -1860393662202122974L;
 
 	private SettingsDao settingsDao;
+	private KejadianDao kejadianDao;
 	
 	private Window kejadianMenonjolSinkronisasiListInfoWin;
 	private Label formTitleLabel, infoResultlabel;
 	private Listbox kejadianCloudListbox;
+	private Combobox statusCombobox;
 	
 	private ApplicationContext ctx;
 	
 	private Settings settings;
 	private Kotamaops kotamaops;
 	private LocalDateTime currentLocalDateTime;
+	private List<Kejadian> cloudKejadianList;
 	
 	private final long SETTINGS_DEFAULT_ID = 1L;
 	
@@ -64,18 +69,50 @@ public class KejadianMenonjolSinkronisasiListInfoControl extends GFCBaseControll
 		formTitleLabel.setValue("Sinkronisasi | Kejadian Menonjol - Kotamaops : "+
 				getKotamaops().getKotamaopsName());
 		
+		// load status combobox
+		loadStatusCombobox();
+		
 		// accessing cloud database
 		ctx = new ClassPathXmlApplicationContext("CommonContext-Cloud-Dao.xml");
 		
-		displayCloudKejadianListInfo(ctx);
+		loadCloudKejadianData();
+		
+		displayCloudKejadianListInfo();
 	}
 
-	private void displayCloudKejadianListInfo(ApplicationContext ctx) throws Exception {
+	private void loadStatusCombobox() {
+		String[] statusSinkronisasi = { "Pending" , "Selesai" };
+		
+		Comboitem comboitem;
+		for (String status : statusSinkronisasi) {
+			comboitem = new Comboitem();
+			comboitem.setLabel(status);
+			comboitem.setValue(status);
+			comboitem.setParent(statusCombobox);
+		}
+		
+		statusCombobox.setSelectedIndex(0);
+	}
+
+	public void onSelect$statusCombobox(Event event) throws Exception {
+		boolean pending = statusCombobox.getSelectedItem().getValue().equals("Pending");
+
 		KejadianDao cloudKejadianDao = (KejadianDao) ctx.getBean("kejadianDao");
-		// pusdalopsSynchAt -- is null
-		List<Kejadian> cloudKejadianList = cloudKejadianDao.findAllKejadianNotSynch();
+		// load data
+		setCloudKejadianList(cloudKejadianDao.findAllKejadianNotSynch(pending));		
+		// display
+		displayCloudKejadianListInfo();
+	}
+	
+	private void loadCloudKejadianData() throws Exception {
+		KejadianDao cloudKejadianDao = (KejadianDao) ctx.getBean("kejadianDao");
+		// pusdalopsSynchAt -- is null -- DEFAULT
+		setCloudKejadianList(cloudKejadianDao.findAllKejadianNotSynch(true));		
+	}
+	
+	private void displayCloudKejadianListInfo() throws Exception {
 		kejadianCloudListbox.setModel(
-				new ListModelList<Kejadian>(cloudKejadianList));
+				new ListModelList<Kejadian>(getCloudKejadianList()));
 		kejadianCloudListbox.setItemRenderer(getKejadianCloudListitemRenderer());
 	}
 
@@ -86,6 +123,8 @@ public class KejadianMenonjolSinkronisasiListInfoControl extends GFCBaseControll
 			@Override
 			public void render(Listitem item, Kejadian cloudKejadian, int index) throws Exception {
 				Listcell lc;
+				
+				item.setSclass("autopaging-content-kejadian-menonjol");
 				
 				// Kotamops
 				lc = initKotamaops(new Listcell(), cloudKejadian);
@@ -101,11 +140,24 @@ public class KejadianMenonjolSinkronisasiListInfoControl extends GFCBaseControll
 				lc.setParent(item);
 				
 				// Jenis Kejadian
-				lc = new Listcell();
+				lc = new Listcell(cloudKejadian.getJenisKejadian().getNamaJenis());
+				lc.setStyle("white-space:nowrap;");
 				lc.setParent(item);
 				
 				// Motif
-				lc = new Listcell();
+				lc = new Listcell(cloudKejadian.getMotifKejadian().getNamaMotif());
+				lc.setParent(item);
+				
+				// sinkronisasi dari cloud ke database lokal di Pusdalops !!!
+				lc = initSynchronizeFromCloud(new Listcell(), cloudKejadian);
+				lc.setParent(item);
+
+				// Tgl Sinkronisasi
+				if (cloudKejadian.getPusdalopsSynchAt()==null) {
+					lc = new Listcell("");
+				} else {
+					lc = new Listcell(dateToStringDisplay(asLocalDate(cloudKejadian.getPusdalopsSynchAt()), "dd-MM-yyyy"));
+				}
 				lc.setParent(item);
 				
 				// view detail kejadian 
@@ -116,9 +168,6 @@ public class KejadianMenonjolSinkronisasiListInfoControl extends GFCBaseControll
 				lc = initViewKerugian(new Listcell(), cloudKejadian);
 				lc.setParent(item);
 				
-				// sinkronisasi dari cloud ke database lokal di Pusdalops !!!
-				lc = initSynchronizeFromCloud(new Listcell(), cloudKejadian);
-				lc.setParent(item);
 			}
 
 			private Listcell initKotamaops(Listcell listcell, Kejadian cloudKejadian) throws Exception {
@@ -133,43 +182,12 @@ public class KejadianMenonjolSinkronisasiListInfoControl extends GFCBaseControll
 				return listcell;
 			}
 
-			private Listcell initViewKejadian(Listcell listcell, Kejadian cloudKejadian) {
-				Button viewKejadianButton = new Button();
-				viewKejadianButton.setLabel("Detail Kejadian");
-				viewKejadianButton.setClass("listinfoEditButton");
-				viewKejadianButton.setParent(listcell);
-				viewKejadianButton.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
-
-					@Override
-					public void onEvent(Event event) throws Exception {
-						
-					}
-				});
-				
-				return listcell;
-			}
-
-			private Listcell initViewKerugian(Listcell listcell, Kejadian cloudKejadian) {
-				Button viewKerugianButton = new Button();
-				viewKerugianButton.setLabel("Detail Kerugian");
-				viewKerugianButton.setClass("listinfoEditButton");
-				viewKerugianButton.setParent(listcell);
-				viewKerugianButton.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
-
-					@Override
-					public void onEvent(Event event) throws Exception {
-						
-					}
-				});
-
-				return listcell;
-			}
-
 			private Listcell initSynchronizeFromCloud(Listcell listcell, Kejadian cloudKejadian) {
 				Button synchFromCloudButton = new Button();
 				synchFromCloudButton.setLabel("Sinkronisasi");
 				synchFromCloudButton.setClass("listinfoEditButton");
 				synchFromCloudButton.setParent(listcell);
+				synchFromCloudButton.setDisabled(cloudKejadian.getPusdalopsSynchAt()!=null);
 				synchFromCloudButton.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
 
 					@Override
@@ -187,11 +205,63 @@ public class KejadianMenonjolSinkronisasiListInfoControl extends GFCBaseControll
 							@Override
 							public void onEvent(Event event) throws Exception {
 								// re-display
-								displayCloudKejadianListInfo(ctx);
+								displayCloudKejadianListInfo();
 							}
 						});
 						
 						synchronizeFromCloudDialogWin.doModal();
+					}
+				});
+
+				return listcell;
+			}
+
+			private Listcell initViewKejadian(Listcell listcell, Kejadian cloudKejadian) {
+				Button viewKejadianButton = new Button();
+				viewKejadianButton.setLabel("Detail Kejadian");
+				viewKejadianButton.setClass("listinfoEditButton");
+				viewKejadianButton.setParent(listcell);
+				viewKejadianButton.setDisabled(cloudKejadian.getPusdalopsSynchAt()==null);
+				viewKejadianButton.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event event) throws Exception {
+						// obtain the serial number
+						String serialComp = cloudKejadian.getSerialNumber().getSerialComp();
+						// find the kejadian object
+						Kejadian kejadian = getKejadianDao().findKejadianBySerialComp(serialComp);
+						
+						Map<String, Kejadian> arg = Collections.singletonMap("kejadian", kejadian);
+						Window kejadianDetailWin = (Window) Executions.createComponents(
+								"/sinkronisasi/KejadianMenonjolDetail.zul", kejadianMenonjolSinkronisasiListInfoWin, arg);
+						
+						kejadianDetailWin.doModal();
+					}
+				});
+				
+				return listcell;
+			}
+
+			private Listcell initViewKerugian(Listcell listcell, Kejadian cloudKejadian) {
+				Button viewKerugianButton = new Button();
+				viewKerugianButton.setLabel("Detail Kerugian");
+				viewKerugianButton.setClass("listinfoEditButton");
+				viewKerugianButton.setParent(listcell);
+				viewKerugianButton.setDisabled(cloudKejadian.getPusdalopsSynchAt()==null);
+				viewKerugianButton.addEventListener(Events.ON_CLICK, new EventListener<Event>() {
+
+					@Override
+					public void onEvent(Event event) throws Exception {
+						// obtain the serial number
+						String serialComp = cloudKejadian.getSerialNumber().getSerialComp();
+						// find the kejadian object
+						Kejadian kejadian = getKejadianDao().findKejadianBySerialComp(serialComp);
+
+						Map<String, Kejadian> arg = Collections.singletonMap("kejadian", kejadian);
+						Window kerugianKejadianWin = (Window) Executions.createComponents(
+								"/sinkronisasi/KejadianMenonjolKerugian.zul", kejadianMenonjolSinkronisasiListInfoWin, arg);
+						
+						kerugianKejadianWin.doModal();
 					}
 				});
 
@@ -206,7 +276,7 @@ public class KejadianMenonjolSinkronisasiListInfoControl extends GFCBaseControll
 	}
 	
 	public void onClick$refreshButton(Event event) throws Exception {
-		displayCloudKejadianListInfo(ctx);
+		displayCloudKejadianListInfo();
 	}
 	
 	public SettingsDao getSettingsDao() {
@@ -239,5 +309,21 @@ public class KejadianMenonjolSinkronisasiListInfoControl extends GFCBaseControll
 
 	public void setCurrentLocalDateTime(LocalDateTime currentLocalDateTime) {
 		this.currentLocalDateTime = currentLocalDateTime;
+	}
+
+	public List<Kejadian> getCloudKejadianList() {
+		return cloudKejadianList;
+	}
+
+	public void setCloudKejadianList(List<Kejadian> cloudKejadianList) {
+		this.cloudKejadianList = cloudKejadianList;
+	}
+
+	public KejadianDao getKejadianDao() {
+		return kejadianDao;
+	}
+
+	public void setKejadianDao(KejadianDao kejadianDao) {
+		this.kejadianDao = kejadianDao;
 	}
 }
