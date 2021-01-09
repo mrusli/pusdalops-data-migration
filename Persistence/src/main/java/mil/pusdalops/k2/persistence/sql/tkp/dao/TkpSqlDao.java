@@ -42,5 +42,11 @@ public interface TkpSqlDao {
 	 */
 	public Tkp findTkpKejadianByProxy(long id) throws Exception;
 
+	public List<Tkp> findAllTkpByStatus(boolean nonMigration) throws Exception;
+
+	public List<String> findDistinctTkpYear() throws Exception;
+
+	public List<Tkp> findAllTkpByStatusYear(boolean nonMigration, String year) throws Exception;
+
 	
 }
